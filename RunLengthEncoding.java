@@ -20,7 +20,7 @@
  *
  *  See the README file accompanying this project for additional details.
  */
-
+package cs61b_project1;
 import java.util.Iterator;
 
 public class RunLengthEncoding implements Iterable {

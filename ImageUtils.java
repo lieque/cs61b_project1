@@ -15,7 +15,7 @@
  *
  *  @author Joel Galenson
  **/
-
+package cs61b_project1;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

@@ -6,7 +6,7 @@
  *
  *  @author Jonathan Shewchuk and Joel Galenson
  */
-
+package cs61b_project1;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;

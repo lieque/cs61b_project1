@@ -1,5 +1,5 @@
 /* PixImage.java */
-
+package cs61b_project1;
 /**
  *  The PixImage class represents an image, which is a rectangular grid of
  *  color pixels.  Each pixel has red, green, and blue intensities in the range

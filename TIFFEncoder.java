@@ -16,7 +16,7 @@
  *
  *  @author Joel Galenson
  **/
-
+package cs61b_project1;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
