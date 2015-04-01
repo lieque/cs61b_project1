@@ -149,10 +149,13 @@ public class PixImage {
   public String toString() {
     // Replace the following line with your solution.
 	  String pSize="Image size = "+size;
-	  String imageString="[ ";
+	  String imageString="[ \n";
 	  for(int j=0;j<height;j++){
 		  for(int i=0;i<width;i++){
-			  imageString=imageString+"{"+pixel[i][j][0]+","+pixel[i][j][1]+","+pixel[i][j][2]+"},";
+			  imageString=imageString+"{"+pixel[i][j][0]+","+pixel[i][j][1]+","+pixel[i][j][2]+"}";
+			  if(i!=(width-1)){
+				  imageString=imageString+",";
+			  }
 			  
 		  }
 		  imageString=imageString+"\n";
