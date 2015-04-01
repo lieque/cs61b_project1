@@ -21,6 +21,10 @@ public class PixImage {
    *  Define any variables associated with a PixImage object here.  These
    *  variables MUST be private.
    */
+	private int size;
+	private int width;
+	private int height;
+	private short[][][] pixel;	
 
 
 
@@ -34,6 +38,21 @@ public class PixImage {
    */
   public PixImage(int width, int height) {
     // Your solution here.
+	  
+	  this.width=width;
+	  this.height=height;
+	  this.size=width*height;
+
+	  this.pixel=new short[width][height][3];
+	  for(int i=0; i<width; i++){
+		  for(int j=0;j<height;j++){
+			  this.pixel[i][j][0]=0;
+			  this.pixel[i][j][1]=0;
+			  this.pixel[i][j][2]=0;
+			  
+			  
+		  }
+	  }
   }
 
   /**
@@ -43,7 +62,7 @@ public class PixImage {
    */
   public int getWidth() {
     // Replace the following line with your solution.
-    return 1;
+    return this.width;
   }
 
   /**
@@ -53,7 +72,7 @@ public class PixImage {
    */
   public int getHeight() {
     // Replace the following line with your solution.
-    return 1;
+    return this.height;
   }
 
   /**
@@ -65,7 +84,8 @@ public class PixImage {
    */
   public short getRed(int x, int y) {
     // Replace the following line with your solution.
-    return 0;
+	  short red=this.pixel[x][y][0];
+    return red;
   }
 
   /**
@@ -77,7 +97,8 @@ public class PixImage {
    */
   public short getGreen(int x, int y) {
     // Replace the following line with your solution.
-    return 0;
+	  short green=this.pixel[x][y][1];
+    return green;
   }
 
   /**
@@ -89,7 +110,8 @@ public class PixImage {
    */
   public short getBlue(int x, int y) {
     // Replace the following line with your solution.
-    return 0;
+	  short blue=this.pixel[x][y][1];
+    return blue;
   }
 
   /**
@@ -107,6 +129,12 @@ public class PixImage {
    */
   public void setPixel(int x, int y, short red, short green, short blue) {
     // Your solution here.
+	  if((-1)<red && red<256&&(-1)<green&&green<256&&(-1)<blue&&blue<256){
+		  pixel[x][y][0]=red;
+		  pixel[x][y][1]=green;
+		  pixel[x][y][2]=blue;
+		  
+	  }
   }
 
   /**
@@ -120,7 +148,19 @@ public class PixImage {
    */
   public String toString() {
     // Replace the following line with your solution.
-    return "";
+	  String pSize="Image size = "+size;
+	  String imageString="[ ";
+	  for(int j=0;j<height;j++){
+		  for(int i=0;i<width;i++){
+			  imageString=imageString+"{"+pixel[i][j][0]+","+pixel[i][j][1]+","+pixel[i][j][2]+"},";
+			  
+		  }
+		  imageString=imageString+"\n";
+		  
+	  }
+	  imageString=imageString+"]";
+	  
+    return imageString;
   }
 
   /**
