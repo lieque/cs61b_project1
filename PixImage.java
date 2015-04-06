@@ -27,7 +27,8 @@ public class PixImage {
 	private int size;
 	private int width;
 	private int height;
-	private short[][][] pixel;	
+	private short[][][] pixel;
+	private int wight;	
 
 
 
@@ -338,7 +339,32 @@ public class PixImage {
    */
   public PixImage sobelEdges() {
     // Replace the following line with your solution.
-    return this;
+	  int[][][] gx=new int[wight][height][3];
+	  int[][][] gy=new int[wight][height][3];
+	  long[][] energy=new long[wight][height];
+	  PixImage greyImage=new PixImage(wight,height);
+	  for(int x=0;x<wight;x++){
+		  for(int y=0;y<height;y++){
+			  energy[x][y]=0;
+			  for(int k=0;k<3;k++){
+				  gx[x][y][k]=this.pixel[x-1][y-1][k]-this.pixel[x+1][y-1][k]+2*this.pixel[x-1][y][k]
+						  -2*this.pixel[x+1][y][k]+this.pixel[x-1][y+1][k]-this.pixel[x+1][y+1][k];
+				  gy[x][y][k]=this.pixel[x-1][y-1][k]-this.pixel[x-1][y+1][k]+2*this.pixel[x][y-1][k]
+						  -2*this.pixel[x][y+1][k]+this.pixel[x+1][y-1][k]-this.pixel[x+1][y+1][k];
+				  energy[x][y]=energy[x][y]+(long) Math.pow(gx[x][y][k],2)+(long) Math.pow(gy[x][y][k],2);
+				  
+			  }	
+			  System.out.println(mag2gray(energy[x][y]));
+			  greyImage.setPixel(x, y, mag2gray(energy[x][y]), mag2gray(energy[x][y]), mag2gray(energy[x][y]));
+
+		  }
+	  }
+	  
+	  
+	  
+	  
+	  
+    return greyImage;
     // Don't forget to use the method mag2gray() above to convert energies to
     // pixel intensities.
   }
