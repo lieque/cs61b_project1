@@ -28,7 +28,7 @@ public class PixImage {
 	private int width;
 	private int height;
 	private short[][][] pixel;
-	private int wight;	
+
 
 
 
@@ -339,26 +339,83 @@ public class PixImage {
    */
   public PixImage sobelEdges() {
     // Replace the following line with your solution.
-	  int[][][] gx=new int[wight][height][3];
-	  int[][][] gy=new int[wight][height][3];
-	  long[][] energy=new long[wight][height];
-	  PixImage greyImage=new PixImage(wight,height);
-	  for(int x=0;x<wight;x++){
+	  int[][][] gx=new int[width][height][3];
+	  int[][][] gy=new int[width][height][3];
+	  long[][] energy=new long[width][height];
+	  PixImage greyImage=new PixImage(width,height);
+	  
+	  int[][] gxC={{1,0,-1},{2,0,-2},{1,0,-1}};//
+
+	  for(int x=0;x<width;x++){
 		  for(int y=0;y<height;y++){
 			  energy[x][y]=0;
 			  for(int k=0;k<3;k++){
-				  gx[x][y][k]=this.pixel[x-1][y-1][k]-this.pixel[x+1][y-1][k]+2*this.pixel[x-1][y][k]
-						  -2*this.pixel[x+1][y][k]+this.pixel[x-1][y+1][k]-this.pixel[x+1][y+1][k];
-				  gy[x][y][k]=this.pixel[x-1][y-1][k]-this.pixel[x-1][y+1][k]+2*this.pixel[x][y-1][k]
-						  -2*this.pixel[x][y+1][k]+this.pixel[x+1][y-1][k]-this.pixel[x+1][y+1][k];
+				  
+				  //System.out.print("\n"+"initial value"+gx[x][y][k]+"\n"); 
+				  
+
+				  //
+				  int i=0;
+				  int j=0;
+				  int iend=3;
+				  int jend=3;
+				  
+				  if(0==x){
+					  j=1;
+				  }
+				  if(0==y){
+					  i=1;
+				  }
+				  if((width-1)==x){
+					  jend=2;
+				  }
+				  if((height-1)==y){
+					  iend=2;
+				  }
+				  
+				  System.out.print(");
+				  for(;i<iend;i++){
+					  for(;j<jend;j++){
+						  gx[x][y][k]=gxC[i][j]*this.pixel[x-1+j][y-1+i][k]+gx[x][y][k];
+						  gy[x][y][k]=gxC[j][i]*this.pixel[x-1+j][y-1+i][k]+gy[x][y][k];
+						  System.out.print(gxC[i][j]+" * "+this.pixel[x-1+j][y-1+i][k]+"   ");
+					  }
+					  System.out.print("\n");
+					  
+				  }
+				  //
+				  System.out.print("\n"+"******************"+"\n");
+				  //System.out.print("\n"+gy[x][y][k]+"\n"); 
+			  
+				  
+				  
+				  //gx[x][y][k]=this.pixel[x-1][y-1][k]-this.pixel[x+1][y-1][k]+2*this.pixel[x-1][y][k]
+					//	  -2*this.pixel[x+1][y][k]+this.pixel[x-1][y+1][k]-this.pixel[x+1][y+1][k];
+				  
+				  //
+				  
+				  //gy[x][y][k]=this.pixel[x-1][y-1][k]-this.pixel[x-1][y+1][k]+2*this.pixel[x][y-1][k]
+					//	  -2*this.pixel[x][y+1][k]+this.pixel[x+1][y-1][k]-this.pixel[x+1][y+1][k];
+				  //System.out.print("\n"+"old+++++"+gy[x][y][k]+"\n");
+				  
 				  energy[x][y]=energy[x][y]+(long) Math.pow(gx[x][y][k],2)+(long) Math.pow(gy[x][y][k],2);
 				  
 			  }	
-			  System.out.println(mag2gray(energy[x][y]));
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  System.out.println(mag2gray(energy[1][1]));
 			  greyImage.setPixel(x, y, mag2gray(energy[x][y]), mag2gray(energy[x][y]), mag2gray(energy[x][y]));
 
 		  }
 	  }
+	  
+	  
+	  
 	  
 	  
 	  
@@ -457,6 +514,8 @@ public class PixImage {
     System.out.println("Testing getWidth/getHeight on a 3x3 image.  " +
                        "Input image:");
     System.out.print(image1);
+
+ /*   
     doTest(image1.getWidth() == 3 && image1.getHeight() == 3,
            "Incorrect image width and height.");
 
@@ -474,6 +533,8 @@ public class PixImage {
     doTest(image1.boxBlur(2).equals(image1.boxBlur(1).boxBlur(1)),
            "Incorrect box blur (1 rep + 1 rep):\n" +
            image1.boxBlur(2) + image1.boxBlur(1).boxBlur(1));
+
+   */  
 
     System.out.println("Testing edge detection on a 3x3 image.");
     doTest(image1.sobelEdges().equals(
@@ -502,5 +563,6 @@ public class PixImage {
            array2PixImage(new int[][] { { 122, 143, 74 },
                                         { 74, 143, 122 } })),
            "Incorrect Sobel:\n" + image2.sobelEdges());
+          
   }
 }
