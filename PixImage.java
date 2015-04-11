@@ -337,7 +337,60 @@ public class PixImage {
    */
   public PixImage sobelEdges() {
     // Replace the following line with your solution.
-    return this;
+	  int[][][] gx=new int[width][height][3];
+	  int[][][] gy=new int[width][height][3];
+	  long[][] energy=new long[width][height];
+	  
+	  PixImage greyImage=new PixImage(width,height);
+	  
+	  int[][] gxC={{1,2,1},{0,0,0},{-1,-1,-1}};
+	  int[][] gyC={{1,0,-1},{2,0,-2},{1,0,-1}};
+	  
+	  for(int x=0;x<width;x++){
+		  for(int y=0;y<height;y++){
+			  for(int k=0;k<3;k++){
+				  
+				  int istart=0;
+				  int jstart=0;
+				  int iend=3;
+				  int jend=3;
+				  
+				  if(0==x){
+					  istart=1;
+				  }
+				  if(0==y){
+					  jstart=1;
+				  }
+				  if((width-1)==x){
+					  iend=2;
+				  }
+				  if((height-1)==y){
+					  jend=2;
+				  }
+				  
+				  
+				  for(int i=istart;i<iend;i++){
+					  for(int j=jstart;j<jend;j++){
+						  gx[x][y][k]=gxC[i][j]*this.pixel[x-1+i][y-1+j][k]+gx[x][y][k];
+						  gy[x][y][k]=gyC[i][j]*this.pixel[x-1+i][y-1+j][k]+gx[x][y][k];
+					  }
+				  }
+				  
+				  
+				  energy[x][y]=energy[x][y]+(long) Math.pow(gx[x][y][k], 2)+(long) Math.pow(gy[x][y][k], 2);
+				  
+				  
+			  }//loop k
+			  
+			  short color=mag2gray(energy[x][y]);
+			  greyImage.setPixel(x, y, color, color, color);
+		  }//loop y
+		  
+	  }//loop x
+	  
+	  
+	  
+	  return greyImage;
     // Don't forget to use the method mag2gray() above to convert energies to
     // pixel intensities.
   }
