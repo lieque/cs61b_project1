@@ -197,7 +197,102 @@ public class PixImage {
    */
   public PixImage boxBlur(int numIterations) {
     // Replace the following line with your solution.
-    return this;
+	  int i;
+	  int j;
+	  int k;
+	  PixImage afterBoxBlur=new PixImage(width,height);
+	  
+
+	  for(i=0;i<width;i++){
+		  for(j=0;j<height;j++){
+			  for(k=0;k<3;k++){
+				  afterBoxBlur.pixel[i][j][k]=this.pixel[i][j][k];
+			  }
+		  }
+	  }
+
+	  
+	  
+	  while (numIterations>0) {
+		  PixImage newPixImage=new PixImage(width,height);
+		  for(i=1;i<width-1;i++){
+			  for(j=1;j<height-1;j++){
+				  for(k=0;k<3;k++){
+					  newPixImage.pixel[i][j][k]=(short) ((afterBoxBlur.pixel[i][j][k]+afterBoxBlur.pixel[i+1][j][k]+afterBoxBlur.pixel[i-1][j][k]+afterBoxBlur.pixel[i][j+1][k]+afterBoxBlur.pixel[i][j-1][k]
+						  +afterBoxBlur.pixel[i+1][j+1][k]+afterBoxBlur.pixel[i+1][j-1][k]+afterBoxBlur.pixel[i-1][j+1][k]+afterBoxBlur.pixel[i-1][j-1][k])/9);
+				  }
+			  }
+		  }  // internal pixel point average
+		  
+		  //left boundary
+		  i=0;
+		  for(j=1;j<height-1;j++){
+			  for(k=0;k<3;k++){
+				  newPixImage.pixel[i][j][k]=(short) ((afterBoxBlur.pixel[i][j][k]+afterBoxBlur.pixel[i+1][j][k]+afterBoxBlur.pixel[i][j+1][k]+afterBoxBlur.pixel[i][j-1][k]
+						  +afterBoxBlur.pixel[i+1][j+1][k]+afterBoxBlur.pixel[i+1][j-1][k])/6);
+				  }
+			  }
+		  j=0;//left upper corner
+		  for(k=0;k<3;k++){
+			  newPixImage.pixel[i][j][k]=(short) ((afterBoxBlur.pixel[i][j][k]+afterBoxBlur.pixel[i+1][j][k]+afterBoxBlur.pixel[i][j+1][k]
+					  +afterBoxBlur.pixel[i+1][j+1][k])/4);
+			  }
+		  j=height-1;//left lower corner 
+		  for(k=0;k<3;k++){
+			  newPixImage.pixel[i][j][k]=(short) ((afterBoxBlur.pixel[i][j][k]+afterBoxBlur.pixel[i+1][j][k]+afterBoxBlur.pixel[i][j-1][k]
+					  +afterBoxBlur.pixel[i+1][j-1][k])/4);
+			  }
+		  //right boundary
+		  i=width-1;
+		  for(j=1;j<height-1;j++){
+			  for(k=0;k<3;k++){
+				  newPixImage.pixel[i][j][k]=(short) ((afterBoxBlur.pixel[i][j][k]+afterBoxBlur.pixel[i-1][j][k]+afterBoxBlur.pixel[i][j+1][k]+afterBoxBlur.pixel[i][j-1][k]
+						  +afterBoxBlur.pixel[i-1][j+1][k]+afterBoxBlur.pixel[i-1][j-1][k])/6);
+				  }
+			  }
+		  
+		  j=0;//right upper corner
+		  for(k=0;k<3;k++){
+			  newPixImage.pixel[i][j][k]=(short) ((afterBoxBlur.pixel[i][j][k]+afterBoxBlur.pixel[i-1][j][k]+afterBoxBlur.pixel[i][j+1][k]
+					  +afterBoxBlur.pixel[i-1][j+1][k])/4);
+			  }
+		  j=height-1;//right lower corner 
+		  for(k=0;k<3;k++){
+			  newPixImage.pixel[i][j][k]=(short) ((afterBoxBlur.pixel[i][j][k]+afterBoxBlur.pixel[i-1][j][k]+afterBoxBlur.pixel[i][j-1][k]
+					  +afterBoxBlur.pixel[i-1][j-1][k])/4);
+			  }
+		  //upper boundary
+		  j=0;
+		  for(i=1;i<width-1;i++){
+			  for(k=0;k<3;k++){
+				  newPixImage.pixel[i][j][k]=(short) ((afterBoxBlur.pixel[i][j][k]+afterBoxBlur.pixel[i+1][j][k]+afterBoxBlur.pixel[i-1][j][k]+afterBoxBlur.pixel[i][j+1][k]
+						  +afterBoxBlur.pixel[i+1][j+1][k]+afterBoxBlur.pixel[i-1][j+1][k])/6);
+				  }
+			  }
+		  
+		  
+		  //lower boundary
+		  j=height-1;
+		  for(i=1;i<width-1;i++){
+			  for(k=0;k<3;k++){
+				  newPixImage.pixel[i][j][k]=(short) ((afterBoxBlur.pixel[i][j][k]+afterBoxBlur.pixel[i+1][j][k]+afterBoxBlur.pixel[i-1][j][k]+afterBoxBlur.pixel[i][j-1][k]
+						  +afterBoxBlur.pixel[i+1][j-1][k]+afterBoxBlur.pixel[i-1][j-1][k])/6);
+				  }
+			  }
+		  
+		  for(i=0;i<width;i++){
+			  for(j=0;j<height;j++){
+				  for(k=0;k<3;k++){
+					  afterBoxBlur.pixel[i][j][k]=newPixImage.pixel[i][j][k];
+				  }
+			  }
+		  }
+		  numIterations--;
+	  }
+	  
+    return afterBoxBlur;
+	  
+
   }
 
   /**
